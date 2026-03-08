@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多 Agent 营销文案生成系统 - 测试页面</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button.secondary {
+            background: #2196F3;
+        }
+        button.secondary:hover {
+            background: #0b7dda;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-success { background: #e8f5e9; color: #2e7d32; }
+        .status-error { background: #ffebee; color: #c62828; }
+        .task-list {
+            margin-top: 20px;
+        }
+        .task-item {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .task-item:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(76, 175, 80, 0.3);
+            border-radius: 50%;
+            border-top-color: #4CAF50;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 多 Agent 营销文案生成系统</h1>
+        
+        <div class="form-group">
+            <label for="userId">用户 ID：</label>
+            <input type="text" id="userId" value="test_user_001" placeholder="请输入用户 ID">
+        </div>
+        
+        <div class="form-group">
+            <label for="productInfo">产品信息：</label>
+            <textarea id="productInfo" placeholder="请输入产品描述">这是一款高性能无线蓝牙耳机，具有主动降噪功能，电池续航达 30 小时，支持快充技术</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="sceneType">应用场景：</label>
+            <input type="text" id="sceneType" value="电商详情页" placeholder="如：电商详情页、社交媒体广告、产品手册等">
+        </div>
+        
+        <button onclick="startTask()">🚀 启动任务</button>
+        <button class="secondary" onclick="refreshStatus()">🔄 刷新状态</button>
+        
+        <div id="result" class="result" style="display:none;"></div>
+        
+        <div class="task-list">
+            <h2>最近任务</h2>
+            <div id="taskList"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTaskId = null;
+        const API_BASE = 'http://localhost:8080/a2a/scheduler';
+
+        async function startTask() {
+            const userId = document.getElementById('userId').value;
+            const productInfo = document.getElementById('productInfo').value;
+            const sceneType = document.getElementById('sceneType').value;
+
+            if (!userId || !productInfo || !sceneType) {
+                showResult('❌ 请填写所有必填字段', true);
+                return;
+            }
+
+            try {
+                showResult('<div class="loading"></div> 正在启动任务...', false);
+                
+                const response = await fetch(`${API_BASE}/start-task`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        product_info: productInfo,
+                        scene_type: sceneType
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 200) {
+                    currentTaskId = result.data.task_id;
+                    showResult(`
+                        ✅ <strong>任务启动成功！</strong><br/>
+                        任务 ID: <code>${result.data.task_id}</code><br/>
+                        消息：${result.data.msg}<br/>
+                        当前状态码：${result.data.current_status_code || 'N/A'}
+                    `, false);
+                    
+                    // 自动查询详细状态
+                    setTimeout(() => queryTaskStatus(result.data.task_id), 1000);
+                } else {
+                    showResult(`❌ ${result.msg}`, true);
+                }
+            } catch (error) {
+                showResult(`❌ 请求失败：${error.message}<br/>请确保服务已启动（端口 8080）`, true);
+            }
+        }
+
+        async function queryTaskStatus(taskId) {
+            try {
+                const response = await fetch(`${API_BASE}/task-status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        task_id: taskId
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.code === 200) {
+                    const task = result.data;
+                    const statusMap = {
+                        0: '初始化',
+                        1: '意图理解中',
+                        2: '意图理解成功',
+                        3: '关键词挖掘中',
+                        4: '关键词挖掘成功',
+                        5: '文案生成中',
+                        6: '文案生成成功',
+                        7: '质量检测中',
+                        8: '质量检测成功',
+                        9: '格式排版中',
+                        10: '格式排版成功',
+                        11: '内容审核中',
+                        12: '内容审核成功',
+                        13: '任务完成',
+                        14: '任务失败'
+                    };
+                    
+                    showResult(`
+                        <h3>📊 任务详情</h3>
+                        <p><strong>任务 ID:</strong> ${task.task_id}</p>
+                        <p><strong>当前状态:</strong> ${statusMap[task.status] || '未知'} (${task.status})</p>
+                        <p><strong>重试次数:</strong> ${task.retry_count || 0}</p>
+                        ${task.fail_reason ? `<p><strong>失败原因:</strong> ${task.fail_reason}</p>` : ''}
+                        ${task.intent ? `<p><strong>意图:</strong> ${task.intent}</p>` : ''}
+                        ${task.keywords ? `<p><strong>关键词:</strong> ${task.keywords}</p>` : ''}
+                        ${task.content ? `<p><strong>生成内容:</strong><br/><pre>${task.content}</pre></p>` : ''}
+                        ${task.formattedContent ? `<p><strong>格式化内容:</strong><br/><pre>${task.formattedContent}</pre></p>` : ''}
+                    `, task.status === 14);
+                } else {
+                    showResult(`❌ ${result.msg}`, true);
+                }
+            } catch (error) {
+                console.error('查询状态失败:', error);
+            }
+        }
+
+        function refreshStatus() {
+            if (currentTaskId) {
+                queryTaskStatus(currentTaskId);
+            } else {
+                showResult('请先启动一个任务', true);
+            }
+        }
+
+        function showResult(html, isError) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = html;
+            resultDiv.className = 'result ' + (isError ? 'error' : '');
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
