@@ -2,12 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<<<<<<< HEAD
+=======
+    <modelVersion>4.0.0</modelVersion>
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
     <parent>
         <groupId>com.agent</groupId>
         <artifactId>ai-agent-marketing</artifactId>
         <version>1.0.0</version>
     </parent>
+<<<<<<< HEAD
     <modelVersion>4.0.0</modelVersion>
+=======
+
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
     <artifactId>scheduler-agent</artifactId>
 
     <dependencies>
@@ -15,6 +23,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+<<<<<<< HEAD
         <dependency>
             <groupId>org.springframework.statemachine</groupId>
             <artifactId>spring-statemachine-core</artifactId>
@@ -44,10 +53,22 @@
             <groupId>com.agent</groupId>
             <artifactId>common</artifactId>
             <version>1.0.0</version>
+=======
+        <!-- 放在 <dependencies> 标签内 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <!-- 推荐用稳定版本，避免版本过高/过低导致下载失败 -->
+            <version>2.0.36</version>
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+<<<<<<< HEAD
+=======
+            <scope>provided</scope>
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
         </dependency>
     </dependencies>
 
@@ -59,4 +80,9 @@
             </plugin>
         </plugins>
     </build>
+<<<<<<< HEAD
 </project>
+=======
+
+</project>
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961

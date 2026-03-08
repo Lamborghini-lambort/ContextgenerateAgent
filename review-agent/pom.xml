@@ -2,13 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.agent</groupId>
         <artifactId>ai-agent-marketing</artifactId>
         <version>1.0.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>mcp-tools</artifactId>
+
+    <artifactId>review-agent</artifactId>
 
     <dependencies>
         <dependency>
@@ -16,51 +17,24 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-<<<<<<< HEAD
-            <groupId>com.agent</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0.0</version>
-=======
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension</artifactId>
             <version>2.0.54</version>
->>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-<<<<<<< HEAD
-        </dependency>
-    </dependencies>
-
-=======
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
-    <!-- 打包插件 -->
->>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<<<<<<< HEAD
             </plugin>
         </plugins>
     </build>
+
 </project>
-=======
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-</project>
->>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961

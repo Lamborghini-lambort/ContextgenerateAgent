@@ -1,4 +1,5 @@
 server:
+<<<<<<< HEAD
   port: 8080
 spring:
   datasource:
@@ -22,3 +23,13 @@ logging:
     root: INFO
     com.agent.scheduler: DEBUG
     com.agent.scheduler.mapper: DEBUG
+=======
+  port: 8000  # 调度 Agent 端口
+
+# 其他 Agent 地址
+agent:
+  generator:
+    url: http://localhost:8001
+  review:
+    url: http://localhost:8002
+>>>>>>> 25110adb6b6aa7e25fd44551bf95318917820961
